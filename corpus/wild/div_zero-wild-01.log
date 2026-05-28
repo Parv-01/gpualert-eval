@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "metrics.py", line 88, in f1
+    return 2 * p * r / (p + r)
+ZeroDivisionError: float division by zero

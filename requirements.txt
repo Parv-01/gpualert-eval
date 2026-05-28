@@ -1,0 +1,5 @@
+# Kept deliberately small. The stats (bootstrap CIs, McNemar, Fisher, Wilson)
+# are implemented from scratch in eval/stats.py so this runs on a bare node
+# without scipy/sklearn.
+numpy>=1.23
+matplotlib>=3.5

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "model.py", line 130, in forward
+    assert mask.shape == scores.shape
+AssertionError

@@ -1,0 +1,3 @@
+Fatal Python error: Segmentation fault
+Current thread 0x00007f9b (most recent call first):
+Segmentation fault (core dumped)

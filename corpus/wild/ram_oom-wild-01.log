@@ -1,0 +1,2 @@
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 14.9 GiB for an array with shape (2000000000,) and data type float64
+MemoryError

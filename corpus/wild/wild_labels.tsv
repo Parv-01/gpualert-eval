@@ -1,0 +1,34 @@
+# id	mode	true_exit_code	gpu	driver
+# Real excerpts copied (minimally) from public issue trackers / forums.
+# See sources.md for the link behind every row. gpu/driver = unknown where the
+# source thread didn't say.
+cuda_oom-wild-01	cuda_oom	1	unknown	unknown
+cuda_oom-wild-02	cuda_oom	1	unknown	unknown
+nccl-wild-01	nccl	1	unknown	unknown
+nccl-wild-02	nccl	1	unknown	unknown
+cuda_runtime-wild-01	cuda_runtime	1	unknown	unknown
+cuda_runtime-wild-02	cuda_runtime	1	unknown	unknown
+ram_oom-wild-01	ram_oom	1	unknown	unknown
+ram_oom-wild-02	ram_oom	-6	unknown	unknown
+segfault-wild-01	segfault	-11	unknown	unknown
+segfault-wild-02	segfault	-11	unknown	unknown
+file_not_found-wild-01	file_not_found	1	unknown	unknown
+file_not_found-wild-02	file_not_found	1	unknown	unknown
+permission-wild-01	permission	1	unknown	unknown
+permission-wild-02	permission	1	unknown	unknown
+missing_module-wild-01	missing_module	1	unknown	unknown
+missing_module-wild-02	missing_module	1	unknown	unknown
+div_zero-wild-01	div_zero	1	unknown	unknown
+div_zero-wild-02	div_zero	1	unknown	unknown
+device_mismatch-wild-01	device_mismatch	1	unknown	unknown
+device_mismatch-wild-02	device_mismatch	1	unknown	unknown
+nan_loss-wild-01	nan_loss	0	unknown	unknown
+nan_loss-wild-02	nan_loss	0	unknown	unknown
+oom_killer-wild-01	oom_killer	-9	unknown	unknown
+oom_killer-wild-02	oom_killer	-9	unknown	unknown
+traceback-wild-01	traceback	1	unknown	unknown
+traceback-wild-02	traceback	1	unknown	unknown
+assertion-wild-01	assertion	1	unknown	unknown
+assertion-wild-02	assertion	1	unknown	unknown
+runtime_error-wild-01	runtime_error	1	unknown	unknown
+runtime_error-wild-02	runtime_error	1	unknown	unknown

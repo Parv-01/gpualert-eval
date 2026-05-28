@@ -1,0 +1,2 @@
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=581923.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+Killed

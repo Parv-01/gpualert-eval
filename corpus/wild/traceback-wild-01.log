@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "train.py", line 210, in <module>
+    cfg = OmegaConf.load(sys.argv[1])
+IndexError: list index out of range

@@ -1,0 +1,2 @@
+WARNING: NaN or Inf found in input tensor.
+Gradient overflow.  loss = nan, skipping step

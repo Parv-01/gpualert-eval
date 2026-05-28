@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "train.py", line 55, in <module>
+    model.load_state_dict(sd)
+RuntimeError: Error(s) in loading state_dict for ResNet: size mismatch for fc.weight

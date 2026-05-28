@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "run.py", line 12, in <module>
+    ckpt = torch.load(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/checkpoints/last.ckpt'

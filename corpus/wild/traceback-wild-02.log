@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "data.py", line 71, in __getitem__
+    label = self.classes[name]
+KeyError: 'tabby_cat'

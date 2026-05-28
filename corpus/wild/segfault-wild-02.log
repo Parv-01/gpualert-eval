@@ -1,0 +1,1 @@
+[1]    18472 segmentation fault (core dumped)  python train.py --amp
