@@ -1,0 +1,1 @@
+Notifier isolation: 15/15 modes preserved the child exit code with SMTP down and no exception escaped the notifier.

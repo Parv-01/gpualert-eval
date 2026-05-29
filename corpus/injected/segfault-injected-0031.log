@@ -1,0 +1,3 @@
+[inject] mode=segfault host=gpu238 pid=38221
+Loading custom CUDA extension fused_adam...
+Segmentation fault (core dumped)

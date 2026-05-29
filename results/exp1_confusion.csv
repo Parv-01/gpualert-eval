@@ -1,0 +1,16 @@
+true\pred,CUDA OOM,NCCL,CUDA runtime,RAM OOM,Segfault,FileNotFound,Permission,MissingModule,DivByZero,DeviceMismatch,NaN loss,OOM-killer,Traceback,Assertion,RuntimeError,generic
+CUDA OOM,34,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+NCCL,0,34,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+CUDA runtime,0,0,34,0,0,0,0,0,0,0,0,0,0,0,0,0
+RAM OOM,0,0,0,34,0,0,0,0,0,0,0,0,0,0,0,0
+Segfault,0,0,0,0,34,0,0,0,0,0,0,0,0,0,0,0
+FileNotFound,0,0,0,0,0,34,0,0,0,0,0,0,0,0,0,0
+Permission,0,0,0,0,0,0,34,0,0,0,0,0,0,0,0,0
+MissingModule,0,0,0,0,0,0,0,34,0,0,0,0,0,0,0,0
+DivByZero,0,0,0,0,0,0,0,0,34,0,0,0,0,0,0,0
+DeviceMismatch,0,0,0,0,0,0,0,0,0,34,0,0,0,0,0,0
+NaN loss,0,0,0,0,0,0,0,0,0,0,34,0,0,0,0,0
+OOM-killer,0,0,0,0,0,0,0,0,0,0,0,34,0,0,0,0
+Traceback,0,0,0,0,0,0,0,0,0,0,0,0,34,0,0,0
+Assertion,0,0,0,0,0,0,0,0,0,0,0,0,23,11,0,0
+RuntimeError,0,0,0,0,0,0,0,0,0,0,0,0,23,0,11,0

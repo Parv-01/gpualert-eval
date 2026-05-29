@@ -1,0 +1,6 @@
+[inject] mode=div_zero host=gpu049 pid=21615
+Evaluating...
+Traceback (most recent call last):
+  File "eval.py", line 58, in accuracy
+    acc = correct / n_valid
+ZeroDivisionError: division by zero

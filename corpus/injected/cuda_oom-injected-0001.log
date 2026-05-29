@@ -1,0 +1,9 @@
+[inject] mode=cuda_oom host=gpu249 pid=20987
+Traceback (most recent call last):
+  File "train.py", line 175, in main
+    loss = model(batch).mean()
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1556, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "model.py", line 106, in forward
+    h = torch.matmul(q, k.transpose(-2, -1))
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.00 GiB (GPU 0; 39.39 GiB total capacity; 37.12 GiB already allocated; 1.01 GiB free; 37.88 GiB reserved in total by PyTorch)

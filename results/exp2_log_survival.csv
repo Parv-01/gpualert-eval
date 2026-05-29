@@ -1,0 +1,13 @@
+fault,method,trials,file_nonempty,sentinel_survived,survival_frac,wilson_lo,wilson_hi
+python_exception,gpualert,20,20,20,1.0,0.839,1.0
+python_exception,redirect,20,20,20,1.0,0.839,1.0
+python_exception,nohup,20,20,20,1.0,0.839,1.0
+segfault,gpualert,20,20,20,1.0,0.839,1.0
+segfault,redirect,20,20,20,1.0,0.839,1.0
+segfault,nohup,20,20,20,1.0,0.839,1.0
+sigkill,gpualert,20,20,20,1.0,0.839,1.0
+sigkill,redirect,20,20,20,1.0,0.839,1.0
+sigkill,nohup,20,20,20,1.0,0.839,1.0
+exec_failure,gpualert,20,20,0,0.0,0.0,0.161
+exec_failure,redirect,20,0,0,0.0,0.0,0.161
+exec_failure,nohup,20,20,0,0.0,0.0,0.161

@@ -1,0 +1,5 @@
+[inject] mode=file_not_found host=gpu224 pid=9813
+Traceback (most recent call last):
+  File "train.py", line 59, in main
+    with open(args.manifest) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/data/imagenet/train_manifest.json'

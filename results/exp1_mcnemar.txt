@@ -1,0 +1,7 @@
+McNemar, gpualert vs grep (paired per-sample correctness)
+  both correct      : 393
+  only gpualert     : 71
+  only grep         : 46
+  neither           : 0
+  discordant pairs  : 117
+  exact p-value     : 2.608e-02

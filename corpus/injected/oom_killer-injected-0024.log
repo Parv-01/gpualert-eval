@@ -1,0 +1,4 @@
+[inject] mode=oom_killer host=gpu081 pid=61908
+Preallocating activation cache...
+[ 4821.553190] Out of memory: Killed process 45675 (python) total-vm:8923144kB, anon-rss:511920kB
+Killed

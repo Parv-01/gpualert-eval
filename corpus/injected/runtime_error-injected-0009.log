@@ -1,0 +1,3 @@
+[inject] mode=runtime_error host=gpu121 pid=32525
+Initialising CUDA context...
+RuntimeError: CUDA capability sm_90 is not compatible with this build

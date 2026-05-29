@@ -1,0 +1,5 @@
+Fisher exact, exec_failure: gpualert vs shell redirect
+DV = log file exists and is non-empty after the failure
+  gpualert non-empty log : 20/20
+  redirect non-empty log : 0/20
+  two-sided p            : 1.451e-11

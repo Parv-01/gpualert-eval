@@ -1,0 +1,16 @@
+mode,smtp,send_raised,notify_success,child_exit,wrapper_exit,exit_preserved,pass
+cuda_oom,down,False,False,1,1,True,True
+nccl,down,False,False,1,1,True,True
+cuda_runtime,down,False,False,1,1,True,True
+ram_oom,down,False,False,1,1,True,True
+segfault,down,False,False,1,1,True,True
+file_not_found,down,False,False,1,1,True,True
+permission,down,False,False,1,1,True,True
+missing_module,down,False,False,1,1,True,True
+div_zero,down,False,False,1,1,True,True
+device_mismatch,down,False,False,1,1,True,True
+nan_loss,down,False,False,1,1,True,True
+oom_killer,down,False,False,1,1,True,True
+traceback,down,False,False,1,1,True,True
+assertion,down,False,False,1,1,True,True
+runtime_error,down,False,False,1,1,True,True

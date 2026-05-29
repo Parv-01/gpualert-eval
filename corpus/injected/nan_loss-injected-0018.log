@@ -1,0 +1,7 @@
+[inject] mode=nan_loss host=gpu213 pid=15243
+step 0001 | loss = 27.0
+step 0002 | loss = 270.0
+step 0003 | loss = nan
+step 0004 | loss = nan
+step 0005 | loss = nan
+NaN detected in loss, aborting.

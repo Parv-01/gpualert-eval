@@ -1,0 +1,5 @@
+[inject] mode=missing_module host=gpu249 pid=42380
+Traceback (most recent call last):
+  File "train.py", line 10, in <module>
+    import flash_attn_3
+ModuleNotFoundError: No module named 'flash_attn_3'

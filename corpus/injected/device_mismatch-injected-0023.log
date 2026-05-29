@@ -1,0 +1,5 @@
+[inject] mode=device_mismatch host=gpu167 pid=50987
+Traceback (most recent call last):
+  File "train.py", line 156, in main
+    logits = a + b
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!

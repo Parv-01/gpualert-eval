@@ -1,0 +1,6 @@
+[inject] mode=ram_oom host=gpu224 pid=9894
+Loading dataset into memory...
+Traceback (most recent call last):
+  File "train.py", line 58, in load
+    cache = bytearray(size)
+MemoryError

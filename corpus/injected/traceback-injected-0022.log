@@ -1,0 +1,5 @@
+[inject] mode=traceback host=gpu018 pid=4434
+Traceback (most recent call last):
+  File "train.py", line 42, in main
+    warmup = cfg["warmup_steps"]
+KeyError: 'warmup_steps'

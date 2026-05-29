@@ -1,0 +1,8 @@
+size,size_bytes,artifact_kept_by_scanner,disposition,log_always_attached
+1KB,1024,True,attached,True
+100KB,102400,True,attached,True
+1MB,1048576,True,attached,True
+10MB,10485760,True,attached,True
+30MB,31457280,False,excluded_oversize,True
+60MB,62914560,False,excluded_oversize,True
+1GB,1073741824,False,excluded_oversize,True

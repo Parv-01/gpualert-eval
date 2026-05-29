@@ -1,0 +1,8 @@
+[inject] mode=nccl host=gpu206 pid=55446
+gpu041:35573:22055 [0] NCCL INFO Bootstrap : Using eth0:10.12.4.41<0>
+gpu041:76335:22055 [0] NCCL INFO NET/IB : No device found.
+[E ProcessGroupNCCL.cpp:828] [Rank 0] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=148, OpType=ALLREDUCE, Timeout(ms)=800) ran for 803 milliseconds before timing out.
+Traceback (most recent call last):
+  File "train.py", line 126, in main
+    dist.all_reduce(t)
+RuntimeError: NCCL error in: ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1275, unhandled system error, NCCL version 2.18.5

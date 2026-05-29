@@ -1,0 +1,8 @@
+[inject] mode=cuda_runtime host=gpu102 pid=38617
+../aten/src/ATen/native/cuda/Indexing.cu:1146: indexSelectLargeIndex: block: [12,0,0], thread: [96,0,0] Assertion `index >= -sizes[i] && index < sizes[i]` failed.
+Traceback (most recent call last):
+  File "train.py", line 121, in main
+    out = src[idx]
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.

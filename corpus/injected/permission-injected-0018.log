@@ -1,0 +1,6 @@
+[inject] mode=permission host=gpu230 pid=15939
+Writing checkpoint...
+Traceback (most recent call last):
+  File "train.py", line 244, in save
+    with open(ckpt_path, "w") as f:
+PermissionError: [Errno 13] Permission denied: '/etc/gpualert_checkpoint.pt'

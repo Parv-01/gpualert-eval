@@ -1,0 +1,5 @@
+[inject] mode=runtime_error host=gpu018 pid=53626
+Traceback (most recent call last):
+  File "train.py", line 56, in <module>
+    torch.zeros(1, device="cuda")
+RuntimeError: CUDA capability sm_90 is not compatible with this build

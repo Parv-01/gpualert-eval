@@ -1,0 +1,3 @@
+[inject] mode=assertion host=gpu141 pid=52649
+Validating batch shapes...
+AssertionError: batch size 48 != 64
