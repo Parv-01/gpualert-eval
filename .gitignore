@@ -12,3 +12,4 @@ venv/
 corpus/injected/*.large.log
 results/*.tmp
 scratch/
+.pytest_cache/
