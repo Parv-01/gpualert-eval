@@ -13,3 +13,4 @@ corpus/injected/*.large.log
 results/*.tmp
 scratch/
 .pytest_cache/
+corpus/wild/relabel_template.tsv

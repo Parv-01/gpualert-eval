@@ -119,8 +119,29 @@ def run(samples=None) -> dict:
         f"  exact p-value     : {mc['p_value']:.3e}\n"
     )
 
+    # --- generalisation: macro-F1 sliced by source (injected vs wild) ---
+    by_source = []
+    for src in ("injected", "wild"):
+        idx = [i for i, s in enumerate(samples) if s["source"] == src]
+        if not idx:
+            continue
+        yt = [y_true[i] for i in idx]
+        for name in preds:
+            yp = [preds[name][i] for i in idx]
+            by_source.append({
+                "source": src,
+                "classifier": name,
+                "n": len(idx),
+                "macro_f1": round(metrics.macro_f1(yt, yp), 4),
+                "accuracy": round(metrics.accuracy(yt, yp), 4),
+            })
+    with (RESULTS / "exp1_by_source.csv").open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(by_source[0].keys()))
+        w.writeheader()
+        w.writerows(by_source)
+
     _write_markdown(summary, samples)
-    return {"summary": summary, "mcnemar": mc}
+    return {"summary": summary, "mcnemar": mc, "by_source": by_source}
 
 
 def _plot_confusion(cm: np.ndarray) -> None:

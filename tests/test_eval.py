@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from baselines import exitcode_baseline, grep_baseline, traceback_baseline
 from eval import metrics
 from eval.classes import CLASSES, LABEL_TO_MODE
-from eval.stats import fisher_exact_2x2, mcnemar, wilson_interval
+from eval.stats import cohen_kappa, fisher_exact_2x2, mcnemar, wilson_interval
 
 
 def test_fifteen_classes():
@@ -66,6 +66,12 @@ def test_traceback_baseline_reads_exception():
     assert traceback_baseline.classify(s) == "file_not_found"
     s2 = {"log": "AssertionError: nope"}
     assert traceback_baseline.classify(s2) == "assertion"
+
+
+def test_cohen_kappa():
+    # perfect agreement -> 1.0; total disagreement on a 2-class problem -> < 0.
+    assert cohen_kappa(["a", "b", "a"], ["a", "b", "a"]) == 1.0
+    assert cohen_kappa(["a", "a", "b", "b"], ["b", "b", "a", "a"]) < 0
 
 
 def test_macro_f1_perfect():

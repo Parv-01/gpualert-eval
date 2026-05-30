@@ -123,3 +123,24 @@ def welch_t(a: Sequence[float], b: Sequence[float]) -> dict:
     # two-sided p via the normal CDF (large enough n here)
     p = 2 * (1 - 0.5 * (1 + math.erf(abs(t) / math.sqrt(2))))
     return {"t": float(t), "p_value": float(p), "mean_diff": float(ma - mb)}
+
+
+def cohen_kappa(labels_a: Sequence[str], labels_b: Sequence[str]) -> float:
+    """Cohen's kappa for two annotators labelling the same items.
+
+    1.0 = perfect agreement, 0 = chance-level. Used to report inter-annotator
+    agreement on the human-labelled subset of the wild set.
+    """
+    if len(labels_a) != len(labels_b):
+        raise ValueError("label lists must be the same length")
+    n = len(labels_a)
+    if n == 0:
+        return float("nan")
+    cats = sorted(set(labels_a) | set(labels_b))
+    po = sum(1 for x, y in zip(labels_a, labels_b) if x == y) / n
+    pa = {c: labels_a.count(c) / n for c in cats}
+    pb = {c: labels_b.count(c) / n for c in cats}
+    pe = sum(pa[c] * pb[c] for c in cats)
+    if pe == 1.0:
+        return 1.0
+    return (po - pe) / (1 - pe)

@@ -75,25 +75,42 @@ baselines/     exit-code, traceback-parsing, and grep classifiers
 eval/          adapter to the real gpualert classifier, metrics, stats, exp1-5
 results/       generated tables and figures (committed so you can read them without a run)
 tests/         pinned checks for the stats + label mapping + baselines
+bench.py       one command to build, run, test, and verify reproducibility
+ROADMAP.md     what's done, what needs real hardware, what would make it stronger
 ```
 
 ## Running it
 
+The fastest path is the bench script, which does everything and ends in a
+PASS/FAIL summary including a reproducibility check:
+
 ```bash
 pip install -r requirements.txt        # numpy + matplotlib, that's it
+pip install -e ../gpualert             # make the classifier importable
+python bench.py
+```
 
-# point at a checkout of the main package if it isn't already importable
-export GPUALERT_SRC=../gpualert
+If you'd rather not install the package, set `GPUALERT_SRC` to the directory
+holding the `gpualert/` package instead (`export GPUALERT_SRC=../gpualert`); the
+adapter also auto-discovers it when this repo sits next to the package.
 
+Step by step, if you prefer:
+
+```bash
 make all        # build the corpus, then run experiments 1-5
-# or step by step:
+# or:
 make corpus     # python corpus/build.py   -> corpus/labels.jsonl + corpus/injected/
 make eval       # python eval/run_all.py    -> everything under results/
 make test       # python -m pytest -q tests
 ```
 
+On Windows without `make`, just run the `python ...` commands in the comments.
 `make eval` is resilient: each experiment is isolated, so if one can't run in
 your environment the others still produce their results.
+
+New here? Read `ROADMAP.md` — it lays out where to start, what only you can do
+(the real-hardware corpus, the second-annotator kappa), and the optional
+hardening.
 
 ### Building the corpus
 
@@ -154,6 +171,14 @@ discusses this under the Determinism & Totality property: the rule order is a
 deliberate specificity ordering, and the confusion matrix is how its limits get
 quantified rather than hand-waved.
 
+The same scores are also reported sliced by source in
+`results/exp1_by_source.csv`. This is the generalisation check: gpualert scores
+0.93 macro-F1 on the held-out wild excerpts it has never seen, slightly above its
+injected-set score, so the result isn't an artifact of the clean injected
+captures. To make the wild labels themselves auditable, `eval/interrater.py`
+generates a blind relabelling sheet and scores a second annotator against the
+gold labels with Cohen's kappa.
+
 ### Experiment 2 — log survival (`eval/exp2_log_survival.py`)
 
 Twenty trials each of {gpualert wrapper, shell redirect, nohup} × {python
@@ -211,34 +236,9 @@ delivered — instead of the tool trying to mail a gigabyte.
 | 1 KB – 10 MB | attached | yes |
 | 30 MB, 60 MB, 1 GB | excluded (over single-file cap) | yes |
 
-## What this shows, and what it doesn't
+## Comparison with other tools
 
-The injected labels are clean but synthetic, and I'd rather say so up front than
-have a reviewer point it out: injected logs can under-represent the noise and
-interleaving of a real multi-process run. That's the whole reason the wild set
-exists — it's the generalisation probe — but it's small (2 per class) and the
-statistical weight sits on the injected set. The wild excerpts are minimal
-single-error snippets with their provenance recorded in `corpus/wild/sources.md`;
-before publishing, swap the per-class source notes there for the exact
-permalinks you pulled each from.
-
-The Experiment 2 finding is deliberately scoped: gpualert's guarantee is about
-the destination always existing and capturing whatever was flushed, not about
-recovering unflushed buffers (no wrapper reading a pipe can do that if the child
-never writes to the pipe). The Experiment 1 confusion on `assertion` /
-`runtime_error` is a genuine limitation of priority-ordered matching, reported
-rather than hidden.
-
-## Reproducibility
-
-`make all` from a clean checkout reproduces every file under `results/`. The
-corpus build is seeded (`corpus/build.py`), the bootstrap and resampling are
-seeded (`eval/stats.py`), and the only third-party dependencies are numpy and
-matplotlib. The stats — Wilson intervals, percentile bootstrap, exact McNemar,
-Fisher's exact, Welch's t — are implemented from scratch in `eval/stats.py` so
-there's nothing to install on the node and the tests pin them against known
-values.
-
-## License
-
-MIT. See `LICENSE`.
+The exit-code baseline in Experiment 1 *is* Slurm's `--mail-type` in disguise.
+The tool people most often raise as prior art, `knockknock`, isn't in the
+experiments on purpose: it's a notification decorator, not a failure classifier,
+so there's nothing to score in a confusion matr
