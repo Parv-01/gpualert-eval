@@ -29,6 +29,11 @@ through and `results/` for the tables and the confusion figure.
 - Generalisation slice: macro-F1 reported separately for injected vs wild
   (`results/exp1_by_source.csv`) — gpualert holds up on the unseen wild set.
 - Feature comparison vs knockknock / Slurm / DCGM (`results/feature_comparison.md`).
+- Real-hardware capture harness (`inject/capture.py`) that records gpu/driver/
+  exit-code and surfaces signal messages, a Slurm template (`inject/capture.sbatch`),
+  and a step-by-step guide (`docs/REAL_HARDWARE.md`).
+- Per-GPU macro-F1 slice (`results/exp1_by_gpu.csv`) and Cohen's-kappa inter-
+  annotator workflow (`eval/interrater.py`).
 - `bench.py` one-command run + reproducibility check. `tests/` (12 checks).
 
 ## Needs you — real hardware (this is the big one for the paper)
@@ -39,11 +44,11 @@ for the methods section, but the paper's headline table should come from logs
 captured on a real GPU/Slurm node. Only you can run that, because it needs a GPU
 and a scheduler.
 
-On a node:
+On a node (full step-by-step in `docs/REAL_HARDWARE.md`):
 
 ```bash
-# the 13 straightforward injectors, driven through the gpualert wrapper:
-REPEAT=30 bash inject/run_all.sh
+# all 15 injectors, recording gpu/driver/exit-code into an eval-ready manifest:
+python inject/capture.py --repeat 30        # or: REPEAT=30 bash inject/run_all.sh
 # the two that need special launchers:
 torchrun --nproc_per_node=2 inject/nccl_timeout.py
 systemd-run --scope -p MemoryMax=500M python inject/oom_killer.py
@@ -91,8 +96,8 @@ pulled each from. That's the one provenance gap a reviewer can poke at.
   the specific ones. Either reorder those rules upstream and re-run (the eval
   will pick up the change automatically), or keep it and discuss it as a
   precision/recall trade-off. Don't leave it unexplained.
-- **Per-GPU slice.** With a real corpus, add a breakdown by `gpu`/`driver` to
-  show the result isn't an artifact of one device.
+- **Per-GPU slice.** Already wired up (`results/exp1_by_gpu.csv`); it just needs
+  a real corpus spanning a few GPU types/drivers to become meaningful.
 
 ## Not in this repo (paper-side)
 

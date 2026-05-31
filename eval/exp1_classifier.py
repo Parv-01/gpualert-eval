@@ -13,6 +13,8 @@ Design:
 Outputs (results/):
   exp1_per_class.csv     per-class P/R/F1/support for every classifier
   exp1_summary.csv       macro/micro F1 + accuracy + bootstrap CI per classifier
+  exp1_by_source.csv     macro-F1 split by injected vs wild (generalisation)
+  exp1_by_gpu.csv        gpualert macro-F1 per GPU (when the corpus is real)
   exp1_confusion.csv     gpualert 15x16 confusion counts
   exp1_confusion.png     the same as a heatmap
   exp1_mcnemar.txt       paired test gpualert vs grep
@@ -139,6 +141,24 @@ def run(samples=None) -> dict:
         w = csv.DictWriter(f, fieldnames=list(by_source[0].keys()))
         w.writeheader()
         w.writerows(by_source)
+
+    # --- per-GPU slice: gpualert macro-F1 by device (skip 'unknown') ---
+    gpus = sorted({s.get("gpu", "unknown") for s in samples} - {"unknown", ""})
+    if gpus:
+        by_gpu = []
+        for gpu in gpus:
+            idx = [i for i, s in enumerate(samples) if s.get("gpu") == gpu]
+            yt = [y_true[i] for i in idx]
+            yp = [preds["gpualert"][i] for i in idx]
+            by_gpu.append({
+                "gpu": gpu, "n": len(idx),
+                "macro_f1": round(metrics.macro_f1(yt, yp), 4),
+                "accuracy": round(metrics.accuracy(yt, yp), 4),
+            })
+        with (RESULTS / "exp1_by_gpu.csv").open("w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(by_gpu[0].keys()))
+            w.writeheader()
+            w.writerows(by_gpu)
 
     _write_markdown(summary, samples)
     return {"summary": summary, "mcnemar": mc, "by_source": by_source}

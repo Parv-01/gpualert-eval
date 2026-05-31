@@ -116,8 +116,9 @@ hardening.
 
 There are two routes and they produce the same manifest format.
 
-On a real GPU/Slurm node, `bash inject/run_all.sh` drives each injector through
-the gpualert wrapper and captures the logs verbatim — this is the canonical
+On a real GPU/Slurm node, `python inject/capture.py --repeat 30` (or `bash
+inject/run_all.sh`, which wraps it) drives each injector and captures the logs
+verbatim, recording the GPU name, driver and real exit code — this is the canonical
 corpus and what the paper's headline numbers come from. `REPEAT=30
 inject/run_all.sh` controls samples per class. The `nccl` and `oom_killer`
 injectors need special launchers (`torchrun` and `systemd-run` respectively);
@@ -134,6 +135,9 @@ deterministic given the seed in `corpus/build.py`.
 
 The label schema (one JSON object per sample in `corpus/labels.jsonl`) is
 documented in `schema.md`.
+
+For the full on-node workflow -- interactive and Slurm (`inject/capture.sbatch`)
+-- see `docs/REAL_HARDWARE.md`.
 
 ## The experiments
 
