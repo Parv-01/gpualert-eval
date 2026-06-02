@@ -22,8 +22,13 @@ is what lets the paper claim generalisation rather than just memorisation.
 from __future__ import annotations
 
 import argparse
+import os
 import random
+import sys
 from pathlib import Path
+
+# allow running directly as `python eval/interrater.py ...` (not just -m eval....)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from eval.dataset import load
 from eval.stats import cohen_kappa
