@@ -1,25 +1,4 @@
 #!/usr/bin/env python3
-"""Build the labelled corpus.
-
-Two ways to get logs:
-
-  1. On a real GPU/Slurm node, run `inject/run_all.sh`. Each injector's output
-     is captured verbatim; the injected fault is the label.
-
-  2. Anywhere else (CI, a laptop, a reviewer's machine), run this script. It
-     replays the recorded captures in `inject/reference/` and applies seeded,
-     surface-level mutations -- different hosts, pids, line numbers, batch
-     sizes, allocation sizes, and partial vs. full tracebacks -- to produce a
-     corpus that exercises the same classifier code paths without a GPU.
-
-Both routes write `corpus/injected/*.log` plus a row per sample in
-`corpus/labels.jsonl`. The wild set under `corpus/wild/` is folded in too, so a
-single manifest drives the whole evaluation.
-
-The mutations are intentionally cosmetic: they never touch the decisive error
-line, because that line *is* the ground truth. The goal is to stop a classifier
-from memorising one exact string, not to invent new failure modes.
-"""
 
 from __future__ import annotations
 
@@ -34,15 +13,10 @@ OUT = ROOT / "corpus" / "injected"
 WILD = ROOT / "corpus" / "wild"
 MANIFEST = ROOT / "corpus" / "labels.jsonl"
 
-# Base seed. Bumped by hand whenever the corpus is regenerated for a new run;
-# 0530 is the date the first full corpus was cut. -- parv
 PARV_BASE_SEED = 20260530
 
-N_PER_CLASS = 32  # >= 30 target from the plan, gives a little headroom
+N_PER_CLASS = 32
 
-# mode -> reference captures it can be built from. assertion/runtime_error get
-# both a full-traceback and a bare variant because both occur in the wild and
-# they classify differently (the bare ones dodge the generic traceback rule).
 REFERENCES = {
     "cuda_oom":        ["cuda_oom.log"],
     "nccl":            ["nccl.log"],
@@ -61,9 +35,6 @@ REFERENCES = {
     "runtime_error":   ["runtime_error.log", "runtime_error.log", "runtime_error_bare.log"],
 }
 
-# Exit code per mode. Negative = killed by signal (subprocess convention).
-# nan_loss is split 0/1 on purpose: silent divergence often exits clean, which
-# is exactly the case an exit-code-only notifier cannot see.
 EXIT_CODE = {
     "cuda_oom": 1, "nccl": 1, "cuda_runtime": 1, "ram_oom": 1,
     "segfault": -11, "file_not_found": 1, "permission": 1,
@@ -80,42 +51,37 @@ GPUS = [
     ("H100-SXM5-80GB", "550.90.07"),
 ]
 
-
 def _mutate(text: str, rng: random.Random) -> str:
-    """Cosmetic, label-preserving edits."""
     host = f"gpu{rng.randint(1, 256):03d}"
     text = re.sub(r"host=gpu\d+", f"host={host}", text)
     text = re.sub(r"gpu\d+:\d+", lambda m: m.group(0).split(':')[0] + f":{rng.randint(10000, 99999)}", text)
-    # pids
+
     text = re.sub(r"pid=\d+", f"pid={rng.randint(1000, 65000)}", text)
     text = re.sub(r"process \d+ \(python\)", f"process {rng.randint(1000, 65000)} (python)", text)
-    # source line numbers
+
     text = re.sub(r"line (\d+)", lambda m: f"line {int(m.group(1)) + rng.randint(-7, 40)}", text)
-    # CUDA OOM sizes
+
     text = re.sub(r"Tried to allocate [\d.]+ GiB",
                   f"Tried to allocate {rng.choice([1.0, 2.0, 3.5, 8.0, 12.0]):.2f} GiB", text)
     text = re.sub(r"[\d.]+ GiB free", f"{rng.choice([0.12, 0.44, 1.01, 2.3]):.2f} GiB free", text)
-    # batch-size assertion numbers
+
     text = re.sub(r"batch size \d+ != \d+",
                   f"batch size {rng.choice([24, 30, 31, 48])} != {rng.choice([32, 64])}", text)
-    # NCCL seq num
+
     text = re.sub(r"SeqNum=\d+", f"SeqNum={rng.randint(1, 400)}", text)
     return text
 
-
 def _maybe_trim_traceback(text: str, rng: random.Random) -> str:
-    """Sometimes keep only a partial traceback, like a truncated tail capture."""
     lines = text.splitlines()
     if "Traceback (most recent call last):" not in text:
         return text
     if rng.random() < 0.4:
-        # drop a middle stack frame pair (file line + code line), keep header
+
         frame_idx = [i for i, l in enumerate(lines) if l.strip().startswith('File "')]
         if len(frame_idx) >= 2:
             drop = frame_idx[0]
             del lines[drop:drop + 2]
     return "\n".join(lines) + "\n"
-
 
 def build_injected() -> list[dict]:
     rows: list[dict] = []
@@ -140,7 +106,6 @@ def build_injected() -> list[dict]:
             })
     return rows
 
-
 def load_wild() -> list[dict]:
     rows: list[dict] = []
     meta = WILD / "wild_labels.tsv"
@@ -162,7 +127,6 @@ def load_wild() -> list[dict]:
         })
     return rows
 
-
 def main() -> None:
     rows = build_injected()
     rows += load_wild()
@@ -172,7 +136,6 @@ def main() -> None:
     n_inj = sum(1 for r in rows if r["source"] == "injected")
     n_wild = sum(1 for r in rows if r["source"] == "wild")
     print(f"wrote {len(rows)} samples ({n_inj} injected, {n_wild} wild) -> {MANIFEST}")
-
 
 if __name__ == "__main__":
     main()

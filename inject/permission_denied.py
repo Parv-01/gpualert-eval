@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Write into a directory we don't own -> PermissionError."""
 from _common import banner
 
 if __name__ == "__main__":

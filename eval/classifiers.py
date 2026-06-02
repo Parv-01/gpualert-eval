@@ -1,10 +1,7 @@
-"""Registry of the systems under test."""
-
 from __future__ import annotations
 
 from baselines import exitcode_baseline, grep_baseline, traceback_baseline
 from eval import gpualert_adapter
-
 
 class Classifier:
     def __init__(self, name, fn):
@@ -13,7 +10,6 @@ class Classifier:
 
     def predict(self, samples):
         return [self.fn(s) for s in samples]
-
 
 def all_classifiers() -> list[Classifier]:
     return [

@@ -1,16 +1,3 @@
-"""Experiment 3 -- wrapper overhead.
-
-The wrapper does a fixed amount of work per job (make a log dir, spawn, two
-reader threads, write a footer). That should be O(1) in the job, i.e. a small
-constant the job length swamps. We measure wall-clock for the same command run
-bare vs through gpualert and report the absolute difference.
-
-  IV  = mode (bare | wrapped)
-  IV  = workload (noop `sleep 0`-ish, short python)
-  DV  = wall-clock seconds
-  Stats= mean +/- std, median, Welch's t on the difference. Warm-ups discarded.
-"""
-
 from __future__ import annotations
 
 import csv
@@ -32,19 +19,16 @@ WORKLOADS = {
     "short_py": [sys.executable, "-c", "x=sum(range(200000))"],
 }
 
-
 def _time_bare(cmd) -> float:
     t0 = time.perf_counter()
     subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return time.perf_counter() - t0
-
 
 def _time_wrapped(cmd) -> float:
     from gpualert.launcher import run_job
     t0 = time.perf_counter()
     run_job(cmd)
     return time.perf_counter() - t0
-
 
 def run() -> dict:
     RESULTS.mkdir(exist_ok=True)
@@ -75,7 +59,6 @@ def run() -> dict:
         w.writeheader()
         w.writerows(rows)
     return {"rows": rows}
-
 
 if __name__ == "__main__":
     for r in run()["rows"]:

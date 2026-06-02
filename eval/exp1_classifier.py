@@ -1,26 +1,3 @@
-"""Experiment 1 -- failure classification quality (the centerpiece).
-
-Hypothesis: gpualert's ordered rule classifier identifies the failure mode more
-accurately than exit-code, traceback-parsing, or naive-grep baselines.
-
-Design:
-  IV  = classifier (gpualert | traceback | grep | exitcode)
-  DV  = per-class and macro/micro precision/recall/F1 over the 15 modes
-  Data= the labelled corpus (injected >= 30/class, plus a held-out wild set)
-  Stats= 1000x bootstrap 95% CIs on macro-F1; McNemar (exact) gpualert vs grep
-         on the paired per-sample correctness.
-
-Outputs (results/):
-  exp1_per_class.csv     per-class P/R/F1/support for every classifier
-  exp1_summary.csv       macro/micro F1 + accuracy + bootstrap CI per classifier
-  exp1_by_source.csv     macro-F1 split by injected vs wild (generalisation)
-  exp1_by_gpu.csv        gpualert macro-F1 per GPU (when the corpus is real)
-  exp1_confusion.csv     gpualert 15x16 confusion counts
-  exp1_confusion.png     the same as a heatmap
-  exp1_mcnemar.txt       paired test gpualert vs grep
-  exp1.md                a written summary of the run
-"""
-
 from __future__ import annotations
 
 import csv
@@ -36,7 +13,6 @@ from eval.stats import bootstrap_metric_ci, mcnemar
 
 RESULTS = Path(__file__).resolve().parent.parent / "results"
 
-
 def _bootstrap_macro_f1_ci(y_true, y_pred, seed=0):
     yt = np.array(y_true, dtype=object)
     yp = np.array(y_pred, dtype=object)
@@ -46,7 +22,6 @@ def _bootstrap_macro_f1_ci(y_true, y_pred, seed=0):
 
     return bootstrap_metric_ci(y_true, stat, n_boot=1000, seed=seed)
 
-
 def run(samples=None) -> dict:
     RESULTS.mkdir(exist_ok=True)
     samples = samples if samples is not None else load()
@@ -55,7 +30,6 @@ def run(samples=None) -> dict:
 
     preds = {c.name: c.predict(samples) for c in clfs}
 
-    # --- per-class table ---
     per_class_rows = []
     for name in preds:
         prf = metrics.per_class_prf(y_true, preds[name])
@@ -73,7 +47,6 @@ def run(samples=None) -> dict:
         w.writeheader()
         w.writerows(per_class_rows)
 
-    # --- summary table with bootstrap CI on macro-F1 ---
     summary = []
     for name in preds:
         mf = metrics.macro_f1(y_true, preds[name])
@@ -94,7 +67,6 @@ def run(samples=None) -> dict:
         w.writeheader()
         w.writerows(summary)
 
-    # --- confusion matrix for gpualert ---
     cm = metrics.confusion(y_true, preds["gpualert"])
     with (RESULTS / "exp1_confusion.csv").open("w", newline="") as f:
         w = csv.writer(f)
@@ -103,7 +75,6 @@ def run(samples=None) -> dict:
             w.writerow([PRETTY[c]] + cm[i].tolist())
     _plot_confusion(cm)
 
-    # --- McNemar gpualert vs grep ---
     a = preds["gpualert"]
     b = preds["grep"]
     both = sum(1 for t, x, y in zip(y_true, a, b) if x == t and y == t)
@@ -121,7 +92,6 @@ def run(samples=None) -> dict:
         f"  exact p-value     : {mc['p_value']:.3e}\n"
     )
 
-    # --- generalisation: macro-F1 sliced by source (injected vs wild) ---
     by_source = []
     for src in ("injected", "wild"):
         idx = [i for i, s in enumerate(samples) if s["source"] == src]
@@ -142,7 +112,6 @@ def run(samples=None) -> dict:
         w.writeheader()
         w.writerows(by_source)
 
-    # --- per-GPU slice: gpualert macro-F1 by device (skip 'unknown') ---
     gpus = sorted({s.get("gpu", "unknown") for s in samples} - {"unknown", ""})
     if gpus:
         by_gpu = []
@@ -163,13 +132,11 @@ def run(samples=None) -> dict:
     _write_markdown(summary, samples)
     return {"summary": summary, "mcnemar": mc, "by_source": by_source}
 
-
 def _plot_confusion(cm: np.ndarray) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    # row-normalise for colour, annotate with counts
     row_sums = cm.sum(axis=1, keepdims=True)
     norm = np.divide(cm, np.where(row_sums == 0, 1, row_sums))
     fig, ax = plt.subplots(figsize=(9, 8))
@@ -191,7 +158,6 @@ def _plot_confusion(cm: np.ndarray) -> None:
     fig.savefig(RESULTS / "exp1_confusion.png", dpi=140)
     plt.close(fig)
 
-
 def _write_markdown(summary, samples) -> None:
     n_inj = sum(1 for s in samples if s["source"] == "injected")
     n_wild = sum(1 for s in samples if s["source"] == "wild")
@@ -211,7 +177,6 @@ def _write_markdown(summary, samples) -> None:
               "`traceback` column are the priority-ordering limitation discussed "
               "in the paper).", ""]
     (RESULTS / "exp1.md").write_text("\n".join(lines))
-
 
 if __name__ == "__main__":
     out = run()

@@ -1,18 +1,3 @@
-"""Experiment 4 -- notifier isolation.
-
-Claim: whether the email goes out or not, the wrapper's exit code is the child's
-exit code. The notifier is a bulkhead -- its failures stay on its side.
-
-We drive the *real* EmailNotifier against a dead SMTP endpoint (connection
-refused) for a JobResult in each of the 15 modes, and check two things:
-  1. send() returns a NotificationResult with success=False and never raises.
-  2. the CLI's exit decision, `0 if result.is_success() else 1`, is identical
-     whether the notification succeeded or failed.
-
-  DV = (no_raise, exit_code_preserved) per mode, with SMTP up (dry-run) and down.
-Expect a 15/15 pass column on both.
-"""
-
 from __future__ import annotations
 
 import csv
@@ -22,7 +7,6 @@ from pathlib import Path
 from eval.classes import CLASSES
 
 RESULTS = Path(__file__).resolve().parent.parent / "results"
-
 
 def _make_result(mode: str, exit_code: int):
     from gpualert.types import JobResult
@@ -37,14 +21,12 @@ def _make_result(mode: str, exit_code: int):
     r.end_time = now
     return r
 
-
 def _bad_smtp_config():
-    """A config that points SMTP at a refused port."""
     from gpualert.config import load_config
     cfg = load_config()
     try:
         cfg.smtp.server = "127.0.0.1"
-        cfg.smtp.port = 9        # discard port, refuses connections
+        cfg.smtp.port = 9
         cfg.smtp.use_tls = False
         cfg.smtp.username = "x"
         cfg.smtp.password = "y"
@@ -53,7 +35,6 @@ def _bad_smtp_config():
     except Exception:
         pass
     return cfg
-
 
 def run() -> dict:
     RESULTS.mkdir(exist_ok=True)
@@ -64,7 +45,7 @@ def run() -> dict:
     rows = []
     all_pass = True
     for mode in CLASSES:
-        exit_code = 1  # every failure mode is a non-zero child
+        exit_code = 1
         result = _make_result(mode, exit_code)
         no_raise = True
         note_ok = None
@@ -73,7 +54,7 @@ def run() -> dict:
             note_ok = bool(getattr(note, "success", False))
         except Exception:
             no_raise = False
-        # CLI exit decision is a pure function of the child status:
+
         exit_with_notify_fail = 0 if result.is_success() else 1
         exit_if_notify_ok = 0 if result.is_success() else 1
         preserved = (exit_with_notify_fail == exit_code == exit_if_notify_ok)
@@ -98,7 +79,6 @@ def run() -> dict:
         f"preserved the child exit code with SMTP down and no exception escaped "
         f"the notifier.\n")
     return {"rows": rows, "all_pass": all_pass}
-
 
 if __name__ == "__main__":
     out = run()

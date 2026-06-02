@@ -1,14 +1,10 @@
-"""Precision / recall / F1 and confusion matrices over mode labels."""
-
 from __future__ import annotations
 
 import numpy as np
 
 from eval.classes import ALL_PRED_LABELS, CLASSES
 
-
 def confusion(y_true, y_pred, labels=None) -> np.ndarray:
-    """Rows = true class (15), cols = predicted label (15 + generic)."""
     rows = CLASSES
     cols = labels or ALL_PRED_LABELS
     ri = {c: i for i, c in enumerate(rows)}
@@ -19,9 +15,7 @@ def confusion(y_true, y_pred, labels=None) -> np.ndarray:
             m[ri[t], ci[p]] += 1
     return m
 
-
 def per_class_prf(y_true, y_pred) -> dict:
-    """Per-class precision/recall/F1/support keyed by the 15 true classes."""
     res = {}
     for c in CLASSES:
         tp = sum(1 for t, p in zip(y_true, y_pred) if t == c and p == c)
@@ -35,20 +29,15 @@ def per_class_prf(y_true, y_pred) -> dict:
                   "support": support, "tp": tp, "fp": fp, "fn": fn}
     return res
 
-
 def macro_f1(y_true, y_pred) -> float:
     prf = per_class_prf(y_true, y_pred)
     f1s = [prf[c]["f1"] for c in CLASSES]
     return float(np.mean(f1s)) if f1s else 0.0
 
-
 def micro_f1(y_true, y_pred) -> float:
-    """Micro-F1 over the 15 classes (== accuracy when every true label is a
-    class and predictions can include 'generic')."""
     tp = sum(1 for t, p in zip(y_true, y_pred) if t == p and t in CLASSES)
     n = sum(1 for t in y_true if t in CLASSES)
     return tp / n if n else 0.0
-
 
 def accuracy(y_true, y_pred) -> float:
     return sum(1 for t, p in zip(y_true, y_pred) if t == p) / len(y_true)

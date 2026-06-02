@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""Raise a plain RuntimeError -> 'Python RuntimeError'.
-
-Like assertion.py, --bare prints the message without the traceback header.
-"""
 import sys
 
 from _common import banner

@@ -1,20 +1,5 @@
-"""Canonical failure classes for the evaluation.
-
-The 15 keys here are a one-to-one mapping onto the gpualert classifier's
-own labels (gpualert/parse_errors.py, ERROR_PATTERNS, in priority order). We
-keep short snake_case keys for the corpus + plots and carry the exact label
-string the classifier emits so the adapter can translate without guessing.
-
-`GENERIC` is the 16th bucket: it is what a classifier returns when nothing
-matches. It is a legal prediction but never a ground-truth corpus mode -- an
-injected fault always has a known cause.
-"""
-
 from __future__ import annotations
 
-# order matches gpualert's ERROR_PATTERNS priority (first match wins). Keeping
-# the same order makes the confusion matrix read top-left to bottom-right in
-# the same priority the classifier actually applies.
 CLASSES = [
     "cuda_oom",
     "nccl",
@@ -35,9 +20,6 @@ CLASSES = [
 
 GENERIC = "generic"
 
-# Exact label string gpualert prints -> our short key. Lifted verbatim from
-# ERROR_PATTERNS so a label change upstream fails loudly in tests rather than
-# silently misscoring.
 LABEL_TO_MODE = {
     "GPU out-of-memory (CUDA OOM)": "cuda_oom",
     "NCCL communication error": "nccl",
@@ -56,7 +38,6 @@ LABEL_TO_MODE = {
     "Python RuntimeError": "runtime_error",
 }
 
-# Human-readable names for tables/figures.
 PRETTY = {
     "cuda_oom": "CUDA OOM",
     "nccl": "NCCL",
@@ -77,7 +58,6 @@ PRETTY = {
 }
 
 ALL_PRED_LABELS = CLASSES + [GENERIC]
-
 
 def is_class(mode: str) -> bool:
     return mode in CLASSES
