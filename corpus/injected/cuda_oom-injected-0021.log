@@ -1,5 +1,11 @@
-[inject] mode=cuda_oom host=user pid=2562229
+[inject] mode=cuda_oom host=gpu041 pid=61208
 Traceback (most recent call last):
-  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/cuda_oom.py", line 10, in <module>
-    x = torch.empty(n, dtype=torch.float32, device="cuda")
-RuntimeError: r.nvmlDeviceGetNvLinkRemoteDeviceType_ INTERNAL ASSERT FAILED at "/pytorch/c10/cuda/driver_api.cpp":33, please report a bug to PyTorch. Can't find nvmlDeviceGetNvLinkRemoteDeviceType: /usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1: undefined symbol: nvmlDeviceGetNvLinkRemoteDeviceType
+  File "train.py", line 188, in <module>
+    main()
+  File "train.py", line 142, in main
+    loss = model(batch).mean()
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1518, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "model.py", line 73, in forward
+    h = torch.matmul(q, k.transpose(-2, -1))
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB (GPU 0; 31.74 GiB total capacity; 30.9 GiB already allocated; 1.44 GiB free; 30.9 GiB reserved in total by PyTorch)

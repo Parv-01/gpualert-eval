@@ -1,9 +1,9 @@
 source,classifier,n,macro_f1,accuracy
-injected,gpualert,420,0.7778,0.8571
-injected,traceback,420,0.4933,0.5714
-injected,grep,420,0.6933,0.7857
-injected,exitcode,420,0.0667,0.0714
-wild,gpualert,28,0.8978,0.9643
-wild,traceback,28,0.5156,0.5714
-wild,grep,28,0.7,0.75
-wild,exitcode,28,0.0667,0.0714
+injected,gpualert,360,0.8,1.0
+injected,traceback,360,0.5,0.6667
+injected,grep,360,0.6333,0.8333
+injected,exitcode,360,0.0667,0.0833
+wild,gpualert,24,0.7644,0.9583
+wild,traceback,24,0.4778,0.625
+wild,grep,24,0.5667,0.7083
+wild,exitcode,24,0.0667,0.0833

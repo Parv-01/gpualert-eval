@@ -1,6 +1,6 @@
 classifier,class,precision,recall,f1,support
-gpualert,cuda_oom,1.0,0.0625,0.1176,32
-gpualert,nccl,1.0,0.0625,0.1176,32
+gpualert,cuda_oom,1.0,1.0,1.0,30
+gpualert,nccl,1.0,1.0,1.0,30
 gpualert,cuda_runtime,1.0,1.0,1.0,32
 gpualert,ram_oom,1.0,1.0,1.0,32
 gpualert,segfault,1.0,1.0,1.0,32
@@ -13,9 +13,9 @@ gpualert,nan_loss,1.0,1.0,1.0,32
 gpualert,oom_killer,1.0,1.0,1.0,30
 gpualert,traceback,0.9697,1.0,0.9846,32
 gpualert,assertion,1.0,0.9688,0.9841,32
-gpualert,runtime_error,0.5161,1.0,0.6809,32
-traceback,cuda_oom,1.0,0.0312,0.0606,32
-traceback,nccl,0.0,0.0,0.0,32
+gpualert,runtime_error,1.0,1.0,1.0,32
+traceback,cuda_oom,1.0,1.0,1.0,30
+traceback,nccl,0.0,0.0,0.0,30
 traceback,cuda_runtime,0.0,0.0,0.0,32
 traceback,ram_oom,1.0,0.9688,0.9841,32
 traceback,segfault,0.0,0.0,0.0,32
@@ -28,9 +28,9 @@ traceback,nan_loss,0.0,0.0,0.0,32
 traceback,oom_killer,0.0,0.0,0.0,30
 traceback,traceback,1.0,1.0,1.0,32
 traceback,assertion,1.0,1.0,1.0,32
-traceback,runtime_error,0.25,1.0,0.4,32
-grep,cuda_oom,1.0,0.0625,0.1176,32
-grep,nccl,1.0,1.0,1.0,32
+traceback,runtime_error,0.254,1.0,0.4051,32
+grep,cuda_oom,1.0,1.0,1.0,30
+grep,nccl,1.0,1.0,1.0,30
 grep,cuda_runtime,0.0,0.0,0.0,32
 grep,ram_oom,1.0,0.9688,0.9841,32
 grep,segfault,1.0,0.9688,0.9841,32
@@ -43,9 +43,9 @@ grep,nan_loss,1.0,1.0,1.0,32
 grep,oom_killer,1.0,1.0,1.0,30
 grep,traceback,1.0,1.0,1.0,32
 grep,assertion,1.0,1.0,1.0,32
-grep,runtime_error,0.254,1.0,0.4051,32
-exitcode,cuda_oom,0.0,0.0,0.0,32
-exitcode,nccl,0.0,0.0,0.0,32
+grep,runtime_error,0.3333,1.0,0.5,32
+exitcode,cuda_oom,0.0,0.0,0.0,30
+exitcode,nccl,0.0,0.0,0.0,30
 exitcode,cuda_runtime,0.0,0.0,0.0,32
 exitcode,ram_oom,0.0,0.0,0.0,32
 exitcode,segfault,1.0,1.0,1.0,32
