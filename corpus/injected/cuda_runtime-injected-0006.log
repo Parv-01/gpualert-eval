@@ -1,8 +1,14 @@
-[inject] mode=cuda_runtime host=gpu083 pid=46897
-../aten/src/ATen/native/cuda/Indexing.cu:1146: indexSelectLargeIndex: block: [12,0,0], thread: [96,0,0] Assertion `index >= -sizes[i] && index < sizes[i]` failed.
+[inject] mode=cuda_runtime host=user pid=2563777
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [0,0,0], thread: [1,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
 Traceback (most recent call last):
-  File "train.py", line 160, in main
-    out = src[idx]
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/cuda_runtime.py", line 14, in <module>
+    torch.cuda.synchronize()  # force the error to surface
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py", line 1040, in synchronize
+    return torch._C._cuda_synchronize()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
 RuntimeError: CUDA error: device-side assert triggered
 CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

@@ -1,4 +1,4 @@
-[inject] mode=nan_loss host=gpu213 pid=59095
+[inject] mode=nan_loss host=user pid=2552474
 step 0001 | loss = 27.0
 step 0002 | loss = 270.0
 step 0003 | loss = nan

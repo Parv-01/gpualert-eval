@@ -1,5 +1,6 @@
-[inject] mode=missing_module host=gpu030 pid=39546
+[inject] mode=missing_module host=user pid=2552340
 Traceback (most recent call last):
-  File "train.py", line 4, in <module>
-    import flash_attn_3
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/missing_module.py", line 7, in <module>
+    import flash_attn_3  # not installed in this env
+    ^^^^^^^^^^^^^^^^^^^
 ModuleNotFoundError: No module named 'flash_attn_3'

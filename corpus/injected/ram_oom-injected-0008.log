@@ -1,6 +1,5 @@
-[inject] mode=ram_oom host=gpu170 pid=38199
-Loading dataset into memory...
+[inject] mode=ram_oom host=user pid=2551962
 Traceback (most recent call last):
-  File "train.py", line 93, in load
-    cache = bytearray(size)
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/ram_oom.py", line 8, in <module>
+    buf = bytearray(10 * 1024 * 1024 * 1024 * 1024)
 MemoryError

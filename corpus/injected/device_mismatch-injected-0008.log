@@ -1,5 +1,6 @@
-[inject] mode=device_mismatch host=gpu137 pid=19729
+[inject] mode=device_mismatch host=user pid=2567776
 Traceback (most recent call last):
-  File "train.py", line 197, in main
-    logits = a + b
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/device_mismatch.py", line 10, in <module>
+    print((a + b).sum())          # raises the device-mismatch RuntimeError
+           ~~^~~
 RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!

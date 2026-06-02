@@ -1,3 +1,2 @@
-[inject] mode=segfault host=gpu248 pid=41243
-Loading custom CUDA extension fused_adam...
-Segmentation fault (core dumped)
+[inject] mode=segfault host=user pid=2552042
+bash: line 1: 2552042 Segmentation fault      (core dumped) /DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/.venv/bin/python segfault.py

@@ -3,3 +3,4 @@
 # without scipy/sklearn.
 numpy>=1.23
 matplotlib>=3.5
+pytest

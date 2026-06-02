@@ -1,5 +1,6 @@
-[inject] mode=traceback host=gpu120 pid=62170
+[inject] mode=traceback host=user pid=2552585
 Traceback (most recent call last):
-  File "train.py", line 63, in main
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/traceback_generic.py", line 13, in <module>
     warmup = cfg["warmup_steps"]
+             ~~~^^^^^^^^^^^^^^^^
 KeyError: 'warmup_steps'

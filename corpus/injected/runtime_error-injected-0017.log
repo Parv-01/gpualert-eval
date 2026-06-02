@@ -1,5 +1,5 @@
-[inject] mode=runtime_error host=gpu050 pid=21079
+[inject] mode=runtime_error host=user pid=2552768
 Traceback (most recent call last):
-  File "train.py", line 15, in <module>
-    torch.zeros(1, device="cuda")
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/runtime_error.py", line 16, in <module>
+    raise RuntimeError(msg)
 RuntimeError: CUDA capability sm_90 is not compatible with this build

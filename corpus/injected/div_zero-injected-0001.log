@@ -1,6 +1,6 @@
-[inject] mode=div_zero host=gpu101 pid=22275
-Evaluating...
+[inject] mode=div_zero host=user pid=2552386
 Traceback (most recent call last):
-  File "eval.py", line 90, in accuracy
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/div_zero.py", line 11, in <module>
     acc = correct / n_valid
+          ~~~~~~~~^~~~~~~~~
 ZeroDivisionError: division by zero

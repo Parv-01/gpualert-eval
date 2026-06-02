@@ -1,5 +1,6 @@
-[inject] mode=file_not_found host=gpu224 pid=9813
+[inject] mode=file_not_found host=user pid=2552228
 Traceback (most recent call last):
-  File "train.py", line 59, in main
-    with open(args.manifest) as f:
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/file_not_found.py", line 8, in <module>
+    with open("/data/imagenet/train_manifest.json") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: '/data/imagenet/train_manifest.json'

@@ -1,5 +1,6 @@
-[inject] mode=assertion host=gpu220 pid=20361
+[inject] mode=assertion host=user pid=2552720
 Traceback (most recent call last):
-  File "train.py", line 121, in collate
+  File "/DATA/parv_pa2503mth244/parv_files/GPualert/gpualert-eval/inject/assertion.py", line 19, in <module>
     assert batch == expected, f"batch size {batch} != {expected}"
-AssertionError: batch size 48 != 32
+           ^^^^^^^^^^^^^^^^^
+AssertionError: batch size 30 != 32

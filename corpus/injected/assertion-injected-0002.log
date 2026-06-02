@@ -1,5 +1,2 @@
-[inject] mode=assertion host=gpu027 pid=30952
-Traceback (most recent call last):
-  File "train.py", line 84, in collate
-    assert batch == expected, f"batch size {batch} != {expected}"
+[inject] mode=assertion host=user pid=2552601
 AssertionError: batch size 30 != 32
